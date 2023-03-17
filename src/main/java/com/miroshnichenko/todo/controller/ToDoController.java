@@ -2,7 +2,6 @@ package com.miroshnichenko.todo.controller;
 
 import com.miroshnichenko.todo.domain.ToDo;
 import com.miroshnichenko.todo.domain.ToDoBuilder;
-import com.miroshnichenko.todo.repository.CommonRepository;
 import com.miroshnichenko.todo.repository.ToDoRepository;
 import com.miroshnichenko.todo.validation.ToDoValidationError;
 import com.miroshnichenko.todo.validation.ToDoValidationErrorBuilder;
@@ -15,12 +14,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
 public class ToDoController {
 
-    private CommonRepository<ToDo> toDoRepository;
+    private ToDoRepository toDoRepository;
 
     @Autowired
     public ToDoController(ToDoRepository toDoRepository) {
@@ -34,18 +34,24 @@ public class ToDoController {
 
     @GetMapping("/todo/{id}")
     public ResponseEntity<ToDo> getToDoById(@PathVariable String id){
-        return ResponseEntity.ok(toDoRepository.findById(id));
+        Optional<ToDo> toDo = toDoRepository.findById(id);
+        if(toDo.isPresent())
+            return ResponseEntity.ok(toDo.get());
+        return ResponseEntity.notFound().build();
     }
 
     @PatchMapping("/todo/{id}")
     public ResponseEntity<ToDo> setCompleted(@PathVariable String id){
-        ToDo result = toDoRepository.findById(id);
+        Optional<ToDo> toDo = toDoRepository.findById(id);
+        if(!toDo.isPresent())
+            return ResponseEntity.notFound().build();
+        ToDo result = toDo.get();
         result.setCompleted(true);
         toDoRepository.save(result);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .buildAndExpand(result.getId()).toUri();
-
-        return ResponseEntity.ok().header("Location",location.toString()).build();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().
+                buildAndExpand(result.getId()).toUri();
+        return ResponseEntity.ok().header("Location",location.toString()).
+                build();
     }
 
     @RequestMapping(value="/todo", method = {RequestMethod.POST,RequestMethod.PUT})

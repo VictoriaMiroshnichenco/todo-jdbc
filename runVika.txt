@@ -1,3 +1,4 @@
 http://localhost:8080/api/todo/5820a4c2abe74f409da89217bf905a0c
 
 http://localhost:8080/api/todo
+http://localhost:8080/st/ - rest repository

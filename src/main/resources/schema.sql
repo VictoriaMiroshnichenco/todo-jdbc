@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS todo;
-CREATE TABLE todo
+DROP TABLE IF EXISTS to_do;
+CREATE TABLE to_do
 (
   id varchar(36) not null primary key,
   description varchar(255) not null,

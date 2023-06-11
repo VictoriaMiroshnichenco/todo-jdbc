@@ -14,6 +14,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -28,6 +30,7 @@ public class ToDoController {
     }
 
     @GetMapping("/todo")
+    @CrossOrigin(origins = {"null","http://localhost:3000"})
     public ResponseEntity<Iterable<ToDo>> getToDos(){
         return ResponseEntity.ok(toDoRepository.findAll());
     }

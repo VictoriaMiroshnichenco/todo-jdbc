@@ -30,12 +30,14 @@ public class ToDoController {
     }
 
     @GetMapping("/todo")
+    //If you wanna allow for everyone then simply use.@CrossOrigin
     @CrossOrigin(origins = {"null","http://localhost:3000"})
     public ResponseEntity<Iterable<ToDo>> getToDos(){
         return ResponseEntity.ok(toDoRepository.findAll());
     }
 
     @GetMapping("/todo/{id}")
+    @CrossOrigin
     public ResponseEntity<ToDo> getToDoById(@PathVariable String id){
         Optional<ToDo> toDo = toDoRepository.findById(id);
         if(toDo.isPresent())
@@ -44,6 +46,7 @@ public class ToDoController {
     }
 
     @PatchMapping("/todo/{id}")
+    @CrossOrigin
     public ResponseEntity<ToDo> setCompleted(@PathVariable String id){
         Optional<ToDo> toDo = toDoRepository.findById(id);
         if(!toDo.isPresent())
@@ -58,6 +61,7 @@ public class ToDoController {
     }
 
     @RequestMapping(value="/todo", method = {RequestMethod.POST,RequestMethod.PUT})
+    @CrossOrigin
     public ResponseEntity<?> createToDo(@Valid @RequestBody ToDo toDo, Errors errors){
         if (errors.hasErrors()) {
             return ResponseEntity.badRequest().body(ToDoValidationErrorBuilder.fromBindingErrors(errors));
@@ -70,12 +74,14 @@ public class ToDoController {
     }
 
     @DeleteMapping("/todo/{id}")
+    @CrossOrigin
     public ResponseEntity<ToDo> deleteToDo(@PathVariable String id){
         toDoRepository.delete(ToDoBuilder.create().withId(id).build());
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/todo")
+    @CrossOrigin
     public ResponseEntity<ToDo> deleteToDo(@RequestBody ToDo toDo){
         toDoRepository.delete(toDo);
         return ResponseEntity.noContent().build();

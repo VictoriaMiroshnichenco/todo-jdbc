@@ -60,8 +60,9 @@ public class ToDoController {
                 build();
     }
 
-    @RequestMapping(value="/todo", method = {RequestMethod.POST,RequestMethod.PUT})
-    @CrossOrigin
+   // @RequestMapping(value="/todo/create", method = {RequestMethod.POST,RequestMethod.PUT})
+    @PostMapping  ("/todo")
+    @CrossOrigin(origins = {"null","http://localhost:3000"})
     public ResponseEntity<?> createToDo(@Valid @RequestBody ToDo toDo, Errors errors){
         if (errors.hasErrors()) {
             return ResponseEntity.badRequest().body(ToDoValidationErrorBuilder.fromBindingErrors(errors));

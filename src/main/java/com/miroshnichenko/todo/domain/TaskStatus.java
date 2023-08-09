@@ -1,20 +1,16 @@
 package com.miroshnichenko.todo.domain;
 
-
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
-
 @Data
 @Entity
-@Table(name = "to_do" )
-//@NoArgsConstructor
-public class ToDo {
+public class TaskStatus {
 
     @NotNull
     @Id
@@ -27,18 +23,16 @@ public class ToDo {
     @Column(insertable = true, updatable = false)
     private LocalDateTime created;
     private LocalDateTime modified;
-    private boolean completed;
-    @Column(name = "taskstatus")
-    private String taskStatus;
+    private boolean active;
 
-    public ToDo(){
+    public TaskStatus(){
         LocalDateTime date = LocalDateTime.now();
         this.id = UUID.randomUUID().toString();
         this.created = date;
         this.modified = date;
     }
 
-    public ToDo(String description){
+    public TaskStatus(String description){
         this();
         this.description = description;
     }
@@ -47,8 +41,13 @@ public class ToDo {
         this.setCreated(LocalDateTime.now());
         this.setModified(LocalDateTime.now());
     }
+
+
+
     @PreUpdate
     void onUpdate() {
         this.setModified(LocalDateTime.now());
     }
+
+
 }

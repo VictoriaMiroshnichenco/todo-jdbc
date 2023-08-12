@@ -1,8 +1,10 @@
 package com.miroshnichenko.todo.controller;
 
+import com.miroshnichenko.todo.domain.Employee;
 import com.miroshnichenko.todo.domain.ToDo;
 import com.miroshnichenko.todo.domain.ToDoBuilder;
 import com.miroshnichenko.todo.repository.ToDoRepository;
+import com.miroshnichenko.todo.repository.ToDoRepositoryImpl;
 import com.miroshnichenko.todo.validation.ToDoValidationError;
 import com.miroshnichenko.todo.validation.ToDoValidationErrorBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ import java.util.Optional;
 public class ToDoController {
 
     private ToDoRepository toDoRepository;
+    @Autowired //temporary if needed - move to constructor
+    private ToDoRepositoryImpl toDoRepositoryImpl;
+
 
     @Autowired
     public ToDoController(ToDoRepository toDoRepository) {
@@ -34,6 +39,13 @@ public class ToDoController {
     @CrossOrigin(origins = {"null","http://localhost:3000"})
     public ResponseEntity<Iterable<ToDo>> getToDos(){
         return ResponseEntity.ok(toDoRepository.findAll());
+    }
+    @GetMapping("/todowithowner")
+    //If you wanna allow for everyone then simply use.@CrossOrigin
+    @CrossOrigin(origins = {"null","http://localhost:3000"})
+    public ResponseEntity<Iterable<Employee>> getToDosWithOwner(){
+
+        return ResponseEntity.ok(toDoRepositoryImpl.findAllWithOwner());
     }
 
     @GetMapping("/todo/{id}")

@@ -5,13 +5,18 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
-
+//@Entity
 @Table(name = "employee" )
 public class Employee {
 
@@ -30,6 +35,9 @@ public class Employee {
     private LocalDateTime created;
     private LocalDateTime modified;
     private boolean active;
+    @OneToMany(fetch = FetchType.LAZY)
+@JoinColumn(name = "employee", referencedColumnName = "id")
+    private Set<ToDo> tasks;
 
     //possibly will use for create form
     public Employee(){

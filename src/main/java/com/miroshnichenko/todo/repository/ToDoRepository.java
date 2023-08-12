@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource(path = "st")
-public interface ToDoRepository extends  CrudRepository<ToDo,String> {}
+public interface ToDoRepository extends  CrudRepository<ToDo,String> {
+
+}

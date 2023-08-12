@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -23,6 +24,8 @@ import java.util.UUID;
 //@NoArgsConstructor
 public class ToDo {
 
+    @javax.persistence.Id
+    @GeneratedValue
     @NotNull
     @Id
 
@@ -44,9 +47,12 @@ public class ToDo {
 // EmbeddedEntity embeddedEntity;
 //@Transient
 //@ManyToOne(cascade= CascadeType.ALL)
-//@JoinColumn(name = "EMP_ID")
-    //private Employee owner ;
-private String ownerid ;
+//@JoinColumn(name = "id")
+//@JoinTable (name = "employee")
+//@OneToOne(fetch = FetchType.LAZY)
+//@JoinColumn(name = "employeeid", referencedColumnName = "id")
+//private Employee employee ;
+private String employee ;
     public ToDo(){
         LocalDateTime date = LocalDateTime.now();
         this.id = UUID.randomUUID().toString();
@@ -58,5 +64,6 @@ private String ownerid ;
         this();
         this.description = description;
     }
+
 
 }

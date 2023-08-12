@@ -18,8 +18,8 @@ CREATE TABLE to_do
   modified timestamp,
   completed boolean,
   taskstatus varchar(255),
-  ownerid varchar(36),
-  FOREIGN KEY (ownerid) REFERENCES employee(id)
+  employee varchar(36),
+  FOREIGN KEY (employee) REFERENCES employee(id)
 
 );
 DROP TABLE IF EXISTS task_status;

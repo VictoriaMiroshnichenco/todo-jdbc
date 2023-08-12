@@ -2,35 +2,51 @@ package com.miroshnichenko.todo.domain;
 
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Embedded;
+import org.springframework.data.relational.core.mapping.MappedCollection;
+import org.springframework.data.relational.core.mapping.Table;
+
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@Entity
+//@Entity // this allows to have crud repository by default? but we need one-to-one so I comment it
+//and disabled jpa (removed from dependencies)
 @Table(name = "to_do" )
 //@NoArgsConstructor
 public class ToDo {
 
     @NotNull
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+
     private String id;
     @NotNull
     @NotBlank
     private String description;
-    @Column(insertable = true, updatable = false)
+
     private LocalDateTime created;
     private LocalDateTime modified;
     private boolean completed;
-    @Column(name = "taskstatus")
+    @Column("taskstatus")
     private String taskStatus;
 
+//    SELECT `to_do`.`id` AS `id`, `to_do`.`created` AS `created`, `to_do`.`modified` AS `modified`, `to_do`.`completed` AS `completed`, `to_do`.`taskstatus` AS `taskstatus`, `to_do`.`description` AS `description`, `owner`.`id` AS `owner_id`, `owner`.`name` AS `owner_name`, `owner`.`about` AS `owner_about`, `owner`.`active` AS `owner_active`, `owner`.`created` AS `owner_created`, `owner`.`modified` AS `owner_modified`
+//    FROM `to_do`
+//    LEFT OUTER JOIN `employee` `owner` ON `owner`.`id` = `to_do`.ownerid
+//@Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
+// EmbeddedEntity embeddedEntity;
+//@Transient
+//@ManyToOne(cascade= CascadeType.ALL)
+//@JoinColumn(name = "EMP_ID")
+    //private Employee owner ;
+private String ownerid ;
     public ToDo(){
         LocalDateTime date = LocalDateTime.now();
         this.id = UUID.randomUUID().toString();
@@ -42,13 +58,5 @@ public class ToDo {
         this();
         this.description = description;
     }
-    @PrePersist
-    void onCreate() {
-        this.setCreated(LocalDateTime.now());
-        this.setModified(LocalDateTime.now());
-    }
-    @PreUpdate
-    void onUpdate() {
-        this.setModified(LocalDateTime.now());
-    }
+
 }

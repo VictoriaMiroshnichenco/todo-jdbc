@@ -5,7 +5,7 @@ public class ToDoBuilder {
     private static ToDoBuilder instance = new ToDoBuilder();
     private String id = null;
     private String description = "";
-    private String status = "";
+    private String tasksdescription = "";
 
     private ToDoBuilder(){}
 
@@ -18,7 +18,7 @@ public class ToDoBuilder {
         return instance;
     }
     public ToDoBuilder withStatus(String status){
-        this.status = status;
+        this.tasksdescription = status;
         return instance;
     }
 
@@ -29,7 +29,7 @@ public class ToDoBuilder {
 
     public ToDo build(){
         ToDo result = new ToDo(this.description);
-        result.setTaskStatus(status);
+        result.setTasksdescription(tasksdescription);
         if(id != null)
             result.setId(id);
         return result;

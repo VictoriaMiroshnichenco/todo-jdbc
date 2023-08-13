@@ -1,6 +1,7 @@
 package com.miroshnichenko.todo.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import org.springframework.data.annotation.Id;
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-//@Entity // this allows to have crud repository by default? but we need one-to-one so I comment it
+@Entity // this allows to have crud repository by default? but we need one-to-one so I comment it
 //and disabled jpa (removed from dependencies)
 @Table(name = "to_do" )
 //@NoArgsConstructor
@@ -37,22 +38,29 @@ public class ToDo {
     private LocalDateTime created;
     private LocalDateTime modified;
     private boolean completed;
-    @Column("taskstatus")
-    private String taskStatus;
+    @Column("tasksdescription")
+    private String tasksdescription;
 
+//private TaskStatus task_status;
 //    SELECT `to_do`.`id` AS `id`, `to_do`.`created` AS `created`, `to_do`.`modified` AS `modified`, `to_do`.`completed` AS `completed`, `to_do`.`taskstatus` AS `taskstatus`, `to_do`.`description` AS `description`, `owner`.`id` AS `owner_id`, `owner`.`name` AS `owner_name`, `owner`.`about` AS `owner_about`, `owner`.`active` AS `owner_active`, `owner`.`created` AS `owner_created`, `owner`.`modified` AS `owner_modified`
 //    FROM `to_do`
 //    LEFT OUTER JOIN `employee` `owner` ON `owner`.`id` = `to_do`.ownerid
 //@Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
 // EmbeddedEntity embeddedEntity;
 //@Transient
+//@OneToOne(cascade = CascadeType.ALL, mappedBy = "attr")
 //@ManyToOne(cascade= CascadeType.ALL)
 //@JoinColumn(name = "id")
 //@JoinTable (name = "employee")
 //@OneToOne(fetch = FetchType.LAZY)
-//@JoinColumn(name = "employeeid", referencedColumnName = "id")
-//private Employee employee ;
-private String employee ;
+//@JoinColumn(name = "employeeid")
+//@JsonIgnore
+@ManyToOne
+//@MapsId - do not use it makes duplicates
+private Employee employee;
+
+
+// private String employee ;
     public ToDo(){
         LocalDateTime date = LocalDateTime.now();
         this.id = UUID.randomUUID().toString();

@@ -1,6 +1,15 @@
 DROP TABLE IF EXISTS to_do;
 DROP TABLE IF EXISTS employee;
 DROP TABLE IF EXISTS task_status;
+
+CREATE TABLE task_status
+(
+    id varchar(36) not null primary key,
+    description varchar(255) not null,
+    created timestamp,
+    modified timestamp,
+    active boolean
+);
 CREATE TABLE employee
 (
     id varchar(36) not null primary key,
@@ -17,19 +26,14 @@ CREATE TABLE to_do
   created timestamp,
   modified timestamp,
   completed boolean,
-  taskstatus varchar(255),
+  tasksdescription varchar(255),
+  employee_id varchar(36),
+  FOREIGN KEY (employee_id) REFERENCES employee(id),
   employee varchar(36),
-  FOREIGN KEY (employee) REFERENCES employee(id)
+  FOREIGN KEY (employee) REFERENCES employee(id),
+  task_status varchar(36),
+  FOREIGN KEY (task_status) REFERENCES task_status(id)
+);
 
-);
-DROP TABLE IF EXISTS task_status;
-CREATE TABLE task_status
-(
-    id varchar(36) not null primary key,
-    description varchar(255) not null,
-    created timestamp,
-    modified timestamp,
-    active boolean
-);
 
 

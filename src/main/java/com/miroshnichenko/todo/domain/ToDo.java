@@ -4,6 +4,7 @@ package com.miroshnichenko.todo.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Column;
@@ -26,7 +27,8 @@ import java.util.UUID;
 public class ToDo {
 
     @javax.persistence.Id
-    @GeneratedValue
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @NotNull
     @Id
 

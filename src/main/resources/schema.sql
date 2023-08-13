@@ -31,8 +31,8 @@ CREATE TABLE to_do
   FOREIGN KEY (employee_id) REFERENCES employee(id),
   employee varchar(36),
   FOREIGN KEY (employee) REFERENCES employee(id),
-  task_status varchar(36),
-  FOREIGN KEY (task_status) REFERENCES task_status(id)
+  task_status_id varchar(36),
+  FOREIGN KEY (task_status_id) REFERENCES task_status(id)
 );
 
 

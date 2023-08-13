@@ -43,7 +43,6 @@ public class ToDo {
     @Column("tasksdescription")
     private String tasksdescription;
 
-//private TaskStatus task_status;
 //    SELECT `to_do`.`id` AS `id`, `to_do`.`created` AS `created`, `to_do`.`modified` AS `modified`, `to_do`.`completed` AS `completed`, `to_do`.`taskstatus` AS `taskstatus`, `to_do`.`description` AS `description`, `owner`.`id` AS `owner_id`, `owner`.`name` AS `owner_name`, `owner`.`about` AS `owner_about`, `owner`.`active` AS `owner_active`, `owner`.`created` AS `owner_created`, `owner`.`modified` AS `owner_modified`
 //    FROM `to_do`
 //    LEFT OUTER JOIN `employee` `owner` ON `owner`.`id` = `to_do`.ownerid
@@ -61,6 +60,8 @@ public class ToDo {
 //@MapsId - do not use it makes duplicates
 private Employee employee;
 
+@ManyToOne
+private TaskStatus task_status;
 
 // private String employee ;
     public ToDo(){

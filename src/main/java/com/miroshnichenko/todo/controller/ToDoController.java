@@ -1,8 +1,10 @@
 package com.miroshnichenko.todo.controller;
 
 import com.miroshnichenko.todo.domain.Employee;
+import com.miroshnichenko.todo.domain.TaskStatus;
 import com.miroshnichenko.todo.domain.ToDo;
 import com.miroshnichenko.todo.domain.ToDoBuilder;
+import com.miroshnichenko.todo.repository.TaskStatusRepository;
 import com.miroshnichenko.todo.repository.ToDoRepository;
 import com.miroshnichenko.todo.repository.ToDoRepositoryImpl;
 import com.miroshnichenko.todo.validation.ToDoValidationError;
@@ -25,13 +27,15 @@ import java.util.Optional;
 public class ToDoController {
 
     private ToDoRepository toDoRepository;
+    private TaskStatusRepository taskStatusRepository;
     @Autowired //temporary if needed - move to constructor
     private ToDoRepositoryImpl toDoRepositoryImpl;
 
 
     @Autowired
-    public ToDoController(ToDoRepository toDoRepository) {
+    public ToDoController(ToDoRepository toDoRepository,TaskStatusRepository taskStatusRepository) {
         this.toDoRepository = toDoRepository;
+        this.taskStatusRepository=taskStatusRepository;
     }
 
     @GetMapping("/todo")
@@ -79,6 +83,10 @@ public class ToDoController {
         if (errors.hasErrors()) {
             return ResponseEntity.badRequest().body(ToDoValidationErrorBuilder.fromBindingErrors(errors));
         }
+    if(toDo.getTask_status()==null){
+        TaskStatus ts = taskStatusRepository.findByDescription("Defined");
+        toDo.setTask_status(ts);
+    }
 
         ToDo result = toDoRepository.save(toDo);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")

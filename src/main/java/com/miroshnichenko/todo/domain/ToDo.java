@@ -69,6 +69,8 @@ private TaskStatus task_status;
         this.id = UUID.randomUUID().toString();
         this.created = date;
         this.modified = date;
+
+
     }
 
     public ToDo(String description){
